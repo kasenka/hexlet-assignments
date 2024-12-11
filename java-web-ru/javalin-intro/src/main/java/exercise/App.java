@@ -13,8 +13,8 @@ public final class App {
         // BEGIN
         var app = Javalin.create(config -> {
                     config.plugins.enableDevLogging();
-                })
-                .get("/welcome", ctx -> ctx.result("Welcome to Hexlet!"))
+                });
+        app.get("/welcome", ctx -> ctx.result("Welcome to Hexlet!"))
                 .start(7070);
         return app;
 
