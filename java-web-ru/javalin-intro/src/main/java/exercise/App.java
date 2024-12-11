@@ -10,10 +10,8 @@ public final class App {
     public static Javalin getApp() {
 
         // BEGIN
-        var app = Javalin.create(config -> {
-                    config.plugins.enableDevLogging();
-        });
-        app.get("/", ctx -> ctx.result("Hello World"));
+        var app = Javalin.create(config -> config.bundledPlugins.enableDevLogging());
+        app.get("/", ctx -> ctx.result(" "));
         app.get("/welcome", ctx -> ctx.result("Welcome to Hexlet!"))
                 .start(7070);
         return app;
