@@ -22,7 +22,7 @@ public final class App {
 
         // BEGIN
         app.get("/companies/{id}", ctx -> {
-            var companiesId = ctx.pathParamAsClass("id", Integer.class).get();
+            var companiesId = ctx.pathParam("id");
 
             var company = COMPANIES.stream()
                     .filter(c -> c.get("id").equals(companiesId))
