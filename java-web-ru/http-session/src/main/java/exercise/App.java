@@ -18,9 +18,8 @@ public final class App {
             var page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
             var per = ctx.queryParamAsClass("per", Integer.class).getOrDefault(5);
 
-            int stroke = page * (per - 1) + 1;
+            int stroke = (page-1) * per;
 
-//            ctx.fullUrl();
             ctx.json(USERS.subList(stroke, stroke+per));
         });
         return app;
