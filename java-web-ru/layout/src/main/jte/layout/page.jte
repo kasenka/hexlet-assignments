@@ -17,6 +17,9 @@
     <div class="header">
         ${header}
     </div>
+@else
+    <h2><a href="/">Главная</a></h2>
+    <h2><a href="/users">Пользователи</a></h2>
 @endif
 
 <div class="content">
