@@ -29,7 +29,8 @@ public final class App {
             List<User> usersByName = new ArrayList<>();
             if (term != null) {
                 usersByName = USERS.stream()
-                        .filter(u -> u.getFirstName().toLowerCase().equals(term.toLowerCase()))
+                        .filter(u -> u.getFirstName().toLowerCase().equals(term.toLowerCase()) ||
+                                u.getFirstName().toLowerCase().startsWith(term.toLowerCase()))
                         .toList();
             }
             var page = new UsersPage(usersByName,term);
