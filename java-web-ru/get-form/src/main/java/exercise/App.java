@@ -27,11 +27,13 @@ public final class App {
         app.get("/users", ctx -> {
             String term = ctx.queryParam("term");
             List<User> usersByName = new ArrayList<>();
-            if (term != null) {
+            if (term != null && !term.isEmpty()) {
                 usersByName = USERS.stream()
                         .filter(u -> u.getFirstName().toLowerCase().equals(term.toLowerCase()) ||
                                 u.getFirstName().toLowerCase().startsWith(term.toLowerCase()))
                         .toList();
+            }else if (term == null){
+                usersByName = USERS;
             }
             var page = new UsersPage(usersByName,term);
             ctx.render("users/index.jte", model("page", page));
