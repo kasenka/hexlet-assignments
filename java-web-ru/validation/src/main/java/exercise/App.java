@@ -50,6 +50,7 @@ public final class App {
                 ctx.redirect("/articles");
 
             }catch (ValidationException e){
+                ctx.status(422);
                 var page = new BuildArticlePage(title,content,e.getErrors());
                 ctx.render("articles/build.jte",model("page", page));
             }
