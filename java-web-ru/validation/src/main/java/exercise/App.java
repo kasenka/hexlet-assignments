@@ -34,8 +34,9 @@ public final class App {
 
         // BEGIN
         app.post("/articles", ctx ->{
-            String title = "";
-            String content = "";
+            var title = ctx.formParam("title");
+            var content = ctx.formParam("content");
+
             try{
                 title = ctx.formParamAsClass("title", String.class)
                         .check(value -> value.length() >= 2,"Название статьи должно быть не короче 2 символов")
@@ -45,6 +46,7 @@ public final class App {
                 content = ctx.formParamAsClass("content",String.class)
                         .check(value -> value.length() >= 10,"Статья должна быть не короче 10 символов")
                         .get();
+
                 Article article = new Article(title,content);
                 ArticleRepository.save(article);
                 ctx.redirect("/articles");
