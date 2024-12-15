@@ -12,7 +12,7 @@ content = @`
         <p>Users not found</p>
     @else
         @for (var user: page.getUsers())
-            <h1>${user.getFirstName()}</h1>
+            <h1>${user.getFirstName()} ${user.getLastName()}</h1>
         @endfor
     @endif
 `
