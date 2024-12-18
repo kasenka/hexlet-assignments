@@ -13,6 +13,8 @@ import io.javalin.http.Context;
 import io.javalin.validation.ValidationException;
 import io.javalin.http.NotFoundResponse;
 
+import java.util.Optional;
+
 public class PostsController {
 
     public static void build(Context ctx) {
@@ -60,6 +62,15 @@ public class PostsController {
     // BEGIN
     public static void edit(Context ctx) {
         var id = ctx.pathParam("id");
+
+        Optional<Post> post = PostRepository.find(Long.parseLong(id));
+
+        if (post.isEmpty()) {
+            ctx.status(404);
+            ctx.result("Post not found");
+            return;
+        }
+
         var page = new EditPostPage();
         page.setId(id);
         ctx.render("posts/edit.jte", model("page", page));
