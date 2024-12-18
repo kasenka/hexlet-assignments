@@ -34,7 +34,7 @@ public final class App {
 
         // BEGIN
         app.after(ctx -> {
-            String route = ctx.matchedPath(); // Получает текущий путь
+            String route = ctx.endpointHandlerPath(); // Получает текущий путь
             String sha256hex = Hashing.sha256()
                     .hashString(route, StandardCharsets.UTF_8)
                     .toString();
