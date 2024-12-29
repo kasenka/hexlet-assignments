@@ -31,15 +31,11 @@ public class Application {
 
     // BEGIN
     @GetMapping("/posts")
-    public ResponseEntity<List<Post>> index(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer limit){
-        List<Post> result = posts.stream()
-                .skip((page * limit - limit))
-                .limit(limit)
-                .toList();
+    public ResponseEntity<List<Post>> index(){
 
         return ResponseEntity.ok()
-                .header("X-Total-Count", String.valueOf(result.size()))
-                .body(result);
+                .header("X-Total-Count", String.valueOf(posts.size()))
+                .body(posts);
     }
 
     @PostMapping("/posts")
