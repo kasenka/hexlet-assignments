@@ -45,7 +45,7 @@ public class ProductsController {
         }
 
         productRepository.save(product);
-        return product);
+        return product;
     }
     // END
 
