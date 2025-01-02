@@ -41,6 +41,7 @@ public class TasksController {
 
     // BEGIN
     @PostMapping(path = "")
+    @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task task){
         taskRepository.save(task);
         return task;
