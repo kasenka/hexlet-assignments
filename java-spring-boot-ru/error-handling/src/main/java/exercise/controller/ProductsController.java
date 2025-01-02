@@ -39,10 +39,10 @@ public class ProductsController {
     // BEGIN
     @GetMapping(path = "/{id}")
     public Product show(@PathVariable long id){
-        Product product = productRepository.findById(id)
+        Product product1 = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format("Product with id %d not found", id)));
-        return product;
+        return product1;
     }
 
     @PutMapping(path = "/{id}")
