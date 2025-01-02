@@ -53,9 +53,8 @@ public class ProductsController {
 
         oldProduct.setPrice(newProduct.getPrice());
         oldProduct.setTitle(newProduct.getTitle());
-        oldProduct.setId(newProduct.getId());
 
-        return newProduct;
+        return oldProduct;
     }
     
     // END
