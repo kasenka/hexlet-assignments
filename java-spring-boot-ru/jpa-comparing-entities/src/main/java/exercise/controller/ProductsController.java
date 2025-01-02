@@ -34,7 +34,8 @@ public class ProductsController {
 
     // BEGIN
     @PostMapping(path = "")
-    public List<Product> create(@RequestBody Product product){
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product create(@RequestBody Product product){
         Optional<Product> pr = productRepository.findAll()
                 .stream()
                 .filter(p -> p.equals(product))
@@ -44,7 +45,7 @@ public class ProductsController {
         }
 
         productRepository.save(product);
-        return productRepository.findAll();
+        return product);
     }
     // END
 
