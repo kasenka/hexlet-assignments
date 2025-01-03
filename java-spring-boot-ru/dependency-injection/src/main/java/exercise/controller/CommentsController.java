@@ -26,7 +26,7 @@ public class CommentsController {
     }
 
     @GetMapping(path = "/{id}")
-    public Comment show(@RequestParam long id){
+    public Comment show(@PathVariable long id){
         Comment findComment = commentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("NO Comment WITH THIS ID"));
         return findComment;
     }
@@ -39,7 +39,7 @@ public class CommentsController {
     }
 
     @PutMapping(path = "/{id}")
-    public Comment edit(@RequestParam long id, @RequestBody Comment comment){
+    public Comment edit(@PathVariable long id, @RequestBody Comment comment){
         Comment oldComment = commentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("NO Comment WITH THIS ID"));
 
         oldComment.setBody(comment.getBody());
@@ -48,7 +48,7 @@ public class CommentsController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public void delete(@RequestParam long id){
+    public void delete(@PathVariable long id){
         commentRepository.deleteById(id);
     }
 }

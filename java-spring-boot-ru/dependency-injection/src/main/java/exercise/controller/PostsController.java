@@ -26,7 +26,7 @@ public class PostsController {
     }
 
     @GetMapping(path = "/{id}")
-    public Post show(@RequestParam long id){
+    public Post show(@PathVariable long id){
         Post findPost = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("NO POSTS WITH THIS ID"));
         return findPost;
     }
@@ -39,7 +39,7 @@ public class PostsController {
     }
 
     @PutMapping(path = "/{id}")
-    public Post edit(@RequestParam long id, @RequestBody Post post){
+    public Post edit(@PathVariable long id, @RequestBody Post post){
         Post oldPost = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("NO POSTS WITH THIS ID"));
 
         oldPost.setTitle(post.getTitle());
@@ -49,9 +49,10 @@ public class PostsController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public void delete(@RequestParam long id){
+    public void delete(@PathVariable long id){
         commentRepository.deleteByPostId(id);
         postRepository.deleteById(id);
     }
 }
 // END
+
