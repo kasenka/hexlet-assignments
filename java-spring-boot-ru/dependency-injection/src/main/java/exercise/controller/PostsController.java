@@ -27,7 +27,7 @@ public class PostsController {
 
     @GetMapping(path = "/{id}")
     public Post show(@PathVariable long id){
-        Post findPost = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("NO POSTS WITH THIS ID"));
+        Post findPost = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post with id "+ id +" not found"));
         return findPost;
     }
 
