@@ -1,5 +1,6 @@
 package exercise.controller;
 
+import exercise.exception.ResourceNotFoundException;
 import exercise.model.Comment;
 import exercise.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +68,8 @@ public class PostsController {
 
     @GetMapping(path = "/{id}")
     public PostDTO show(@PathVariable long id){
-        Post post = postRepository.getReferenceById(id);
 
+        var post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(""));
         return toPostDTO(post);
     }
 }
