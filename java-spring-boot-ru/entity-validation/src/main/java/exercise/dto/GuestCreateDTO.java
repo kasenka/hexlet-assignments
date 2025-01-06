@@ -32,6 +32,9 @@ public class GuestCreateDTO {
     @Pattern(regexp = "\\d{4}")
     private String clubCard;
 
+    @Future
+    private LocalDate cardValidUntil;
+
 }
 
 // END
