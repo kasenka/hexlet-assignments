@@ -75,7 +75,14 @@ public class TasksController {
         Task task = taskRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Task with id " + id + " not found"));
 
+        User assigneeOld = userRepository.findById(task.getAssignee().getId()).orElse(null);
+        User assigneeNew = userRepository.findById(taskUpdateDTO.getAssigneeId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User with id " + taskUpdateDTO.getAssigneeId() + " not found"));
+
+        assigneeOld.removeTask(task);
         taskMapper.update(taskUpdateDTO, task);
+        assigneeNew.addTask(task);
         taskRepository.save(task);
 
         TaskDTO taskDto = taskMapper.map(task);
