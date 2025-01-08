@@ -12,10 +12,10 @@ public class ProductSpecification {
 
     public Specification<Product> build(ProductParamsDTO params) {
         return titleCont(params.getTitleCont())
-                .or(priceLt(params.getPriceLt()))
-                .or(priceGt(params.getPriceGt()))
-                .or(categoryId(params.getCategoryId()))
-                .or(ratingGt(params.getRatingGt()));
+                .and(priceLt(params.getPriceLt()))
+                .and(priceGt(params.getPriceGt()))
+                .and(categoryId(params.getCategoryId()))
+                .and(ratingGt(params.getRatingGt()));
     }
 
     private Specification<Product> titleCont(String title) {
