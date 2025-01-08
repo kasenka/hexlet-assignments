@@ -90,10 +90,12 @@ public class TasksController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id){
         Task task = taskRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Task with id " + id + " not found"));
-       taskRepository.deleteById(id);
+
+        taskRepository.deleteById(id);
     }
     // END
 }
