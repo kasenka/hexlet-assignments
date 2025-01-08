@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import exercise.exception.ResourceNotFoundException;
 import exercise.repository.ProductRepository;
 import jakarta.validation.Valid;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/products")
@@ -48,11 +49,11 @@ public class ProductsController {
 
     @GetMapping(path = "/{id}")
     public ProductDTO show(@PathVariable long id){
-        var task = productRepository.findById(id).orElseThrow(() ->
+        var product = productRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Product with id " + id + " not found"));
 
-        ProductDTO productDTO = productMapper.map(task);
-
+        ProductDTO productDTO = productMapper.map(product);
+        productDTO.setCategoryName(product.getCategory().getName());
         return productDTO;
     }
 
@@ -60,7 +61,7 @@ public class ProductsController {
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDTO create(@RequestBody ProductCreateDTO productCreateDTO){
         Category category = categoryRepository.findById(productCreateDTO.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Bad request"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request"));
 
         Product product = productMapper.map(productCreateDTO);
 
@@ -77,7 +78,7 @@ public class ProductsController {
 
         if (productUpdateDTO.getCategoryId().isPresent()){
             Category category  = categoryRepository.findById(productUpdateDTO.getCategoryId().get())
-                    .orElseThrow(() -> new ResourceNotFoundException("Bad request"));
+                    .orElseThrow(() ->  new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request"));
         }
 
         productMapper.update(productUpdateDTO, product);
