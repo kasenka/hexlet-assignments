@@ -7,6 +7,7 @@ import exercise.dto.TaskDTO;
 import exercise.dto.TaskUpdateDTO;
 import exercise.mapper.TaskMapper;
 import exercise.model.Task;
+import exercise.model.User;
 import exercise.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,8 +58,12 @@ public class TasksController {
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
     public TaskDTO create(@RequestBody TaskCreateDTO taskCreateDTO){
+        User assignee = userRepository.findById(taskCreateDTO.getAssigneeId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID " + taskCreateDTO.getAssigneeId()));
+
         Task task = taskMapper.map(taskCreateDTO);
 
+        assignee.addTask(task);
         taskRepository.save(task);
 
         TaskDTO taskDto = taskMapper.map(task);
