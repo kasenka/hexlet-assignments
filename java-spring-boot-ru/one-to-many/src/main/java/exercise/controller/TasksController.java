@@ -84,6 +84,8 @@ public class TasksController {
 
     @DeleteMapping(path = "/{id}")
     public void delete(@PathVariable long id){
+        Task task = taskRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Task with id " + id + " not found"));
        taskRepository.deleteById(id);
     }
     // END
