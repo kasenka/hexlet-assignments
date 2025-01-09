@@ -58,24 +58,24 @@ public class BookService {
         var book = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
 
-        if (bookUpdateDTO.getAuthorId().isPresent()){
-            var author = authorRepository.findById(bookUpdateDTO.getAuthorId().get())
+        if (bookUpdateDTO.getAuthorId().isPresent()) {
+            // Найти нового автора
+            var newAuthor = authorRepository.findById(bookUpdateDTO.getAuthorId().get())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request"));
 
-            book.getAuthor().getBooks().remove(book);
-            bookMapper.update(bookUpdateDTO,book);
-            author.getBooks().add(book);
-
-            var bookDTO = bookMapper.map(book);
-            return bookDTO;
+            // Удалить книгу из старого автора (если автор изменился)
+            if (!book.getAuthor().equals(newAuthor)) {
+                book.getAuthor().getBooks().remove(book);
+                newAuthor.getBooks().add(book);
+                book.setAuthor(newAuthor);
+            }
         }
 
-        book.getAuthor().getBooks().remove(book);
-        bookMapper.update(bookUpdateDTO,book);
-        book.getAuthor().getBooks().add(book);
+        bookMapper.update(bookUpdateDTO, book);
 
-        var bookDTO = bookMapper.map(book);
-        return bookDTO;
+        repository.save(book);
+
+        return bookMapper.map(book);
 
     }
 
