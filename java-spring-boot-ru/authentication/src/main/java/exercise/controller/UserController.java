@@ -31,7 +31,6 @@ public class UserController {
     private UserMapper userMapper;
 
     @GetMapping(path = "")
-    @PreAuthorize("isAuthenticated()")
     public List<UserDTO> index() {
         var users = userRepository.findAll();
         return users.stream()
@@ -40,7 +39,6 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("isAuthenticated()")
     public UserDTO show(@PathVariable long id) {
 
         var user =  userRepository.findById(id)
@@ -51,7 +49,6 @@ public class UserController {
 
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    @PermitAll
     public UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
         var user = userMapper.map(userData);
         userRepository.save(user);
