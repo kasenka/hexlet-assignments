@@ -3,6 +3,7 @@ package exercise.controller;
 import exercise.mapper.UserMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @GetMapping(path = "")
+    @PreAuthorize("isAuthenticated()")
     public List<UserDTO> index() {
         var users = userRepository.findAll();
         return users.stream()
@@ -37,6 +39,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}")
+    @PreAuthorize("isAuthenticated()")
     public UserDTO show(@PathVariable long id) {
 
         var user =  userRepository.findById(id)
