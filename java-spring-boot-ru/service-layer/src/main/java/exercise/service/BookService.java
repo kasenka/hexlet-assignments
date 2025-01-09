@@ -55,21 +55,28 @@ public class BookService {
     }
 
     public BookDTO update(BookUpdateDTO bookUpdateDTO, Long id) {
+        var book = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
 
         if (bookUpdateDTO.getAuthorId().isPresent()){
             var author = authorRepository.findById(bookUpdateDTO.getAuthorId().get())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request"));
+
+            book.getAuthor().getBooks().remove(book);
+            bookMapper.update(bookUpdateDTO,book);
+            author.getBooks().add(book);
+
+            var bookDTO = bookMapper.map(book);
+            return bookDTO;
         }
 
-
-        var book = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
-
-
+        book.getAuthor().getBooks().remove(book);
         bookMapper.update(bookUpdateDTO,book);
+        book.getAuthor().getBooks().add(book);
 
         var bookDTO = bookMapper.map(book);
         return bookDTO;
+
     }
 
     public void delete(Long id) {
